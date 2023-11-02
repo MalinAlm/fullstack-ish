@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import PostForm from "./components/PostForm";
 
 function App() {
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -10,23 +12,74 @@ function App() {
       .then((response) => response.json())
       .then((result) => {
         setData(result);
+      })
+      .catch((error) => {
+        console.log("Error fetching data", error);
       });
   }, []);
 
-  // const interiorItem = data.length > 0 ? data[0] : null;
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+    console.log("Button clicked", name, category, price);
+    const interiorInput = {
+      name,
+      category,
+      price,
+    };
+
+    fetch("/api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(interiorInput),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("The response is not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.log("Error, submit not done", error);
+      });
+
+    setName("");
+    setCategory("");
+    setPrice("");
+  };
+
   return (
     <>
-      {/*
-      <PostForm /> */}
-
       <div>
-        <form action="http://localhost:3000/" method="POST">
+        <form method="POST" onSubmit={handleOnSubmit}>
           <label>Name</label>
-          <input type="text" name="name" required />
+          <input
+            type="text"
+            name="name"
+            onChange={(event) => setName(event.target.value)}
+            value={name}
+            required
+          />
           <label>Category</label>
-          <input type="text" name="category" required />
+          <input
+            type="text"
+            name="category"
+            onChange={(event) => setCategory(event.target.value)}
+            value={category}
+            required
+          />
           <label>Price sek</label>
-          <input type="text" name="price" required />
+          <input
+            type="text"
+            name="price"
+            onChange={(event) => setPrice(event.target.value)}
+            value={price}
+            required
+          />
           <button type="submit">Submit</button>
         </form>
       </div>

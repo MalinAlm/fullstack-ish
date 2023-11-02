@@ -4,6 +4,7 @@ const app = express(),
   port = process.env.PORT || 3000;
 var cors = require("cors");
 
+app.use(express.json());
 app.use(cors());
 
 app.get("/products/:id", function (req, res, next) {
@@ -25,14 +26,28 @@ const client = new Client({
 client.connect();
 
 app.get("/api", async (_request, response) => {
-  const { rows } = await client.query(
-    // "SELECT * FROM interior WHERE name = $1",
-    // ["Urban"]
-    "SELECT * FROM interior"
-  );
+  const { rows } = await client.query("SELECT * FROM interior");
   console.log(rows, "rows");
 
   response.send(rows);
+});
+app.post("/api", async (request, response) => {
+  try {
+    // const { name, category, price } = request.body;
+    let name = request.body.name;
+    let category = request.body.category;
+    let price = request.body.price;
+
+    await client.query(
+      "INSERT INTO interior (name, category, price) VALUES ($1, $2, $3)",
+      [name, category, price]
+    );
+    const { rows } = await client.query("SELECT * FROM interior");
+    response.status(201).send(rows);
+  } catch (error) {
+    console.error(error);
+    response.status(500).send("Error when request");
+  }
 });
 
 //de två följande raderne krockar, den som kommer först vinner över den andra
