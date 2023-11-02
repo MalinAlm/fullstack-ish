@@ -1,41 +1,55 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import PostForm from "./components/PostForm";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch("/api")
       .then((response) => response.json())
       .then((result) => {
-        alert(`Hello ${result.hello}!`);
+        setData(result);
       });
   }, []);
 
+  // const interiorItem = data.length > 0 ? data[0] : null;
   return (
     <>
+      {/*
+      <PostForm /> */}
+
       <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <form action="http://localhost:3000/" method="POST">
+          <label>Name</label>
+          <input type="text" name="name" required />
+          <label>Category</label>
+          <input type="text" name="category" required />
+          <label>Price sek</label>
+          <input type="text" name="price" required />
+          <button type="submit">Submit</button>
+        </form>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price (sek)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((interiorItem) => (
+              <tr key={interiorItem.id}>
+                <td>{interiorItem.name}</td>
+                <td>{interiorItem.category}</td>
+                <td>{interiorItem.price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
