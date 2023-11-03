@@ -25,7 +25,7 @@ const client = new Client({
 
 client.connect();
 
-//Get and post for interior
+//Get & post interior
 app.get("/api", async (_request, response) => {
   const { rows } = await client.query("SELECT * FROM interior");
   console.log(rows, "rows");
@@ -51,8 +51,8 @@ app.post("/api", async (request, response) => {
     response.status(500).send("Internal server error");
   }
 });
-
-app.get("/api", async (_request, response) => {
+//lägger till ny endpoint för nytt getanrop
+app.get("/api/images", async (_request, response) => {
   const { rows } = await client.query("SELECT * FROM images");
   console.log(rows, "images");
 

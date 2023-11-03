@@ -1,6 +1,23 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import Home from "./components/Home";
+import styled from "styled-components";
+
+const Form = styled.form`
+  margin-top: 50px;
+  margin-bottom: 50px;
+`;
+
+const Div = styled.div`
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 900px;
+`;
+
+const Table = styled.table`
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 function App() {
   const [name, setName] = useState("");
@@ -56,8 +73,8 @@ function App() {
   return (
     <>
       <Home />
-      <div>
-        <form method="POST" onSubmit={handleOnSubmit}>
+      <Div>
+        <Form method="POST" onSubmit={handleOnSubmit}>
           <label>Name</label>
           <input
             type="text"
@@ -83,10 +100,10 @@ function App() {
             required
           />
           <button type="submit">Submit</button>
-        </form>
-      </div>
+        </Form>
+      </Div>
       <div>
-        <table>
+        <Table>
           <thead>
             <tr>
               <th>Name</th>
@@ -103,7 +120,7 @@ function App() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       </div>
     </>
   );
