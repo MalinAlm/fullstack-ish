@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import Home from "./components/Home";
 
 function App() {
   const [name, setName] = useState("");
@@ -54,6 +55,7 @@ function App() {
 
   return (
     <>
+      <Home />
       <div>
         <form method="POST" onSubmit={handleOnSubmit}>
           <label>Name</label>

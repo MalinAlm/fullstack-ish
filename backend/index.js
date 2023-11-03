@@ -25,6 +25,7 @@ const client = new Client({
 
 client.connect();
 
+//Get and post for interior
 app.get("/api", async (_request, response) => {
   const { rows } = await client.query("SELECT * FROM interior");
   console.log(rows, "rows");
@@ -33,10 +34,11 @@ app.get("/api", async (_request, response) => {
 });
 app.post("/api", async (request, response) => {
   try {
-    // const { name, category, price } = request.body;
-    let name = request.body.name;
-    let category = request.body.category;
-    let price = request.body.price;
+    const { name, category, price } = request.body;
+    //Följande har samma effekt som ovanstående rad
+    // let name = request.body.name;
+    // let category = request.body.category;
+    // let price = request.body.price;
 
     await client.query(
       "INSERT INTO interior (name, category, price) VALUES ($1, $2, $3)",
@@ -46,8 +48,15 @@ app.post("/api", async (request, response) => {
     response.status(201).send(rows);
   } catch (error) {
     console.error(error);
-    response.status(500).send("Error when request");
+    response.status(500).send("Internal server error");
   }
+});
+
+app.get("/api", async (_request, response) => {
+  const { rows } = await client.query("SELECT * FROM images");
+  console.log(rows, "images");
+
+  response.send(rows);
 });
 
 //de två följande raderne krockar, den som kommer först vinner över den andra
