@@ -1,1 +1,1 @@
-Check out the project here: https://fullstackish.onrender.com
+github project: https://github.com/MalinAlm/fullstack-ish.git
