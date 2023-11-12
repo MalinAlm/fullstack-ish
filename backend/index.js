@@ -28,7 +28,7 @@ client.connect();
 //Get & post interior
 app.get("/api", async (_request, response) => {
   const { rows } = await client.query("SELECT * FROM interior");
-  console.log(rows, "rows");
+  console.log(rows, "look at all these furniture :D");
 
   response.send(rows);
 });
@@ -45,6 +45,7 @@ app.post("/api", async (request, response) => {
       [name, category, price]
     );
     const { rows } = await client.query("SELECT * FROM interior");
+    console.log(rows, "wow, look what you posted");
     response.status(201).send(rows);
   } catch (error) {
     console.error(error);
@@ -54,7 +55,7 @@ app.post("/api", async (request, response) => {
 //lägger till ny endpoint för nytt getanrop
 app.get("/api/images", async (_request, response) => {
   const { rows } = await client.query("SELECT * FROM images");
-  console.log(rows, "images");
+  console.log(rows, "this is the hompage data and image");
 
   response.send(rows);
 });

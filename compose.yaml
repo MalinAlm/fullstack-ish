@@ -8,16 +8,11 @@ services:
       - PGURI=postgres://postgres:secret@database/postgres
     ports:
       - "3000:3000"
-  # frontend:
-  #   build: frontend
-  #   ports:
-  #   depends_on:
-  #   - backend
   database:
     environment:
       - POSTGRES_PASSWORD=secret
     healthcheck:
-      interval: 1s
+      interval: 5s
       test: 'pg_isready --username=postgres'
     image: postgres
     volumes:
